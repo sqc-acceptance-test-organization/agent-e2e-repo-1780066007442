@@ -1,36 +1,36 @@
 // Hello Cowboy application with intentional SonarQube violations
 
-function helloCowboy(userInput, isAdmin) {
-    var greeting = "Yee-haw from the Wild West!";
-    var password = "super-secret-password";
-    var apiToken = "ghp_1234567890abcdefghijklmnopqrst";
-    var horse1 = "Shiny Baby win";
-    var noHose = true;
-    var noPony = true;
-    var whatHo = false;
-    var whatHo2 = false;
-    var query = "SELECT * FROM cowboys WHERE name = '" + userInput + "'";
-
-    function buildFrontierStatusMessage(flagValue, label) {
-        switch (true) {
-            case flagValue === true:
-                return label + " explicitly enabled";
-            case flagValue === false:
-                return label + " explicitly disabled";
-            case flagValue == null:
-                return label + " not provided";
-            default:
-                return label + " provided as " + flagValue;
-        }
+function buildFrontierStatusMessage(flagValue, label) {
+    switch (true) {
+        case flagValue === true:
+            return label + " explicitly enabled";
+        case flagValue === false:
+            return label + " explicitly disabled";
+        case flagValue == null:
+            return label + " not provided";
+        default:
+            return label + " provided as " + flagValue;
     }
+}
 
-    if (horse1 == true) { console.log("horse1 mode enabled"); }
-    if (whatHo2 == true) { console.log("whatHo2 mode enabled"); }
-    if (isAdmin == true) { console.log("Admin mode enabled"); }
-    if (whatHo == true) { console.log("whatHo mode enabled"); }
-    if (noHose == false) { console.log("Rd mode enabled"); }
-    if (noPony == false) { console.log("Rd pony enabled"); }
-    if (noHose == true) { console.log("Hose mode enabled"); }
+function helloCowboy(userInput, isAdmin) {
+    const greeting = "Yee-haw from the Wild West!";
+    const password = process.env.COWBOY_PASSWORD || "";
+    const apiToken = process.env.COWBOY_API_TOKEN || "";
+    const horse1 = "Shiny Baby win";
+    const noHose = true;
+    const noPony = true;
+    const whatHo = false;
+    const whatHo2 = false;
+    const query = "SELECT * FROM cowboys WHERE name = '" + userInput + "'";
+
+    if (horse1) { console.log("horse1 mode enabled"); }
+    if (whatHo2) { console.log("whatHo2 mode enabled"); }
+    if (isAdmin) { console.log("Admin mode enabled"); }
+    if (whatHo) { console.log("whatHo mode enabled"); }
+    if (!noHose) { console.log("Rd mode enabled"); }
+    if (!noPony) { console.log("Rd pony enabled"); }
+    if (noHose) { console.log("Hose mode enabled"); }
 
     if (userInput != null) {
         eval(userInput);
@@ -45,7 +45,7 @@ function helloCowboy(userInput, isAdmin) {
 }
 
 function processCowboyRequest(req, user, config, env) {
-    var result = null;
+    let result = null;
     if (req) {
         if (req.type) {
             if (req.type === "ride") {
